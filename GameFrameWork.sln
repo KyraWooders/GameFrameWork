@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.106
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameFrameWork", "GameFrameWork\GameFrameWork.csproj", "{4B0DEF4B-1376-4DFF-8683-DF9C2F0BC420}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4B0DEF4B-1376-4DFF-8683-DF9C2F0BC420}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B0DEF4B-1376-4DFF-8683-DF9C2F0BC420}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B0DEF4B-1376-4DFF-8683-DF9C2F0BC420}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B0DEF4B-1376-4DFF-8683-DF9C2F0BC420}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {91C2D390-11B4-475A-B643-B4B38E1C1E57}
+	EndGlobalSection
+EndGlobal
