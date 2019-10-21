@@ -18,6 +18,27 @@ namespace GameFrameWork
         {
             _facing = Direction.North;
             OnUpdate += Move;
+            OnUpdate += TouchPlayer;
+        }
+
+        private void TouchPlayer()
+        {
+            List<Entity> touched;
+            touched = CurrentScene.GetEntities(X, Y);
+            bool hit = false;
+            foreach (Entity e in touched)
+            {
+                if (e is Player)
+                {
+                    hit = true;
+                    break;
+                }
+            }
+
+            if (hit)
+            {
+                CurrentScene.RemoveEntity(this);
+            }
         }
 
         private void Move()
@@ -68,7 +89,7 @@ namespace GameFrameWork
             }
             else
             {
-                _facing++;
+                _facing = Direction.North;
             }
         }
 

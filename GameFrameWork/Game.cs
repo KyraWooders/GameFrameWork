@@ -25,6 +25,16 @@ namespace GameFrameWork
             Room eastRoom = new Room();
             Room southRoom = new Room();
 
+            Enemy enemy = new Enemy();
+
+            void StartNorthRoom()
+            {
+                enemy.X = 4;
+                enemy.Y = 4;
+            }
+
+            northRoom.OnStart += StartNorthRoom;
+
             startingRoom.North = northRoom;
             startingRoom.East = eastRoom;
             startingRoom.South = southRoom;
@@ -95,11 +105,9 @@ namespace GameFrameWork
             Player player = new Player();
             player.X = 4;
             player.Y = 3;
-            Enemy enemy = new Enemy();
-            enemy.X = 4;
-            enemy.Y = 4;
 
             startingRoom.AddEntity(player);
+            //add
             northRoom.AddEntity(enemy);
 
             CurrentScene = startingRoom;
