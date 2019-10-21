@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace GameFrameWork
 {
+    enum Direction
+    {
+        North,
+        South,
+        East,
+        West
+    }
+
     class Room : Scene
     {
         private Room _north;

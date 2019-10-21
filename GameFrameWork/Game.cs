@@ -95,7 +95,7 @@ namespace GameFrameWork
             Player player = new Player();
             player.X = 4;
             player.Y = 3;
-            Entity enemy = new Entity('*');
+            Enemy enemy = new Enemy();
             enemy.X = 4;
             enemy.Y = 4;
 
