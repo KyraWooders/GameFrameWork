@@ -31,11 +31,12 @@ namespace GameFrameWork
             }
             set
             {
-                ////if we are setting North to another room
-                //if (value != null)
-                //{
-                //    value._south = this;
-                //}
+                //if we are setting North to another room
+                if (value != null)
+                {
+                    //connect the rooms both ways
+                    value._south = this;
+                }
                 ////if we are clearing 
                 //else
                 //{
@@ -52,6 +53,11 @@ namespace GameFrameWork
             }
             set
             {
+                if (value != null)
+                {
+                    //connect the rooms both ways
+                    value._north = this;
+                }
                 _south = value;
                 //value._north = this;
             }
@@ -64,6 +70,11 @@ namespace GameFrameWork
             }
             set
             {
+                if (value != null)
+                {
+                    //connect the rooms both ways
+                    value._west = this;
+                }
                 _east = value;
                 //value._west = this;
             }
@@ -76,6 +87,11 @@ namespace GameFrameWork
             }
             set
             {
+                if (value != null)
+                {
+                    //connect the rooms both ways
+                    value._east = this;
+                }
                 _west = value;
                 //value._east = this;
             }

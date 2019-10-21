@@ -17,30 +17,100 @@ namespace GameFrameWork
         {
             
         }
-        
-        public void Run()
+
+        private void Init()
         {
             Room startingRoom = new Room();
             Room northRoom = new Room();
-            startingRoom.North = northRoom;
-            northRoom.South = startingRoom;
+            Room eastRoom = new Room();
+            Room southRoom = new Room();
 
-            _currentScene.AddEntity(new Wall(1, 3));
+            startingRoom.North = northRoom;
+            startingRoom.East = eastRoom;
+            startingRoom.South = southRoom;
+
+            //walls for starting room
+            for (int i = 1; i < startingRoom.SizeX - 1; i++)
+            {
+                startingRoom.AddEntity(new Wall(0, i));
+                if (i != 2)
+                {
+                    startingRoom.AddEntity(new Wall(11, i));
+                }
+            }
+            for (int i = 0; i < startingRoom.SizeX; i++)
+            {
+                if (i != 2)
+                {
+                    startingRoom.AddEntity(new Wall(i, 0));
+                    startingRoom.AddEntity(new Wall(i, 5));
+                }
+            }
+
+            //walls for northroom
+            for (int i = 0; i < northRoom.SizeX; i++)
+            {
+                if (i != 2)
+                {
+                    northRoom.AddEntity(new Wall(i, 5));
+                }
+                northRoom.AddEntity(new Wall(i, 0));
+            }
+            for (int i = 1; i < northRoom.SizeX - 1; i++)
+            {
+                northRoom.AddEntity(new Wall(0, i));
+                northRoom.AddEntity(new Wall(11, i));
+            }
+
+            //walls for south room
+            for (int i = 1; i < southRoom.SizeX - 1; i++)
+            {
+                southRoom.AddEntity(new Wall(0, i));
+                southRoom.AddEntity(new Wall(11, i));
+            }
+            for (int i = 0; i < southRoom.SizeX; i++)
+            {
+                if (i != 2)
+                {
+                    southRoom.AddEntity(new Wall(i, 0));
+                }
+                    southRoom.AddEntity(new Wall(i, 5));
+            }
+
+            //walls for east room
+            for (int i = 1; i < eastRoom.SizeX - 1; i++)
+            {
+                if (i != 2)
+                {
+                    eastRoom.AddEntity(new Wall(0, i));
+                }
+                eastRoom.AddEntity(new Wall(11, i));
+            }
+            for (int i = 0; i < eastRoom.SizeX; i++)
+            {
+                eastRoom.AddEntity(new Wall(i, 0));
+                eastRoom.AddEntity(new Wall(i, 5));
+            }
 
             Player player = new Player();
             player.X = 4;
             player.Y = 3;
             Entity enemy = new Entity('*');
             enemy.X = 4;
-            enemy.Y = 5;
+            enemy.Y = 4;
 
-            _currentScene.AddEntity(player);
-            _currentScene.AddEntity(enemy);
+            startingRoom.AddEntity(player);
+            northRoom.AddEntity(enemy);
 
+            CurrentScene = startingRoom;
+        }
+        
+        public void Run()
+        {
             PlayerInput.AddKeyEvent(Quit, ConsoleKey.Escape);
 
-            _currentScene.Start();
-
+            Init();
+            
             //loop til the game is over
             while (!Gameover)
             {
@@ -48,7 +118,6 @@ namespace GameFrameWork
                 _currentScene.Draw();
                 PlayerInput.ReadKey();
             }
-
         }
         //the scene we are currently running
         public static Scene CurrentScene
@@ -56,6 +125,7 @@ namespace GameFrameWork
             set
             {
                 _currentScene = value;
+                _currentScene.Start();
             }
             get
             {
