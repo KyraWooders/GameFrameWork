@@ -25,7 +25,7 @@ namespace GameFrameWork
         //Move one space to the right
         private void MoveRight()
         {
-            if (X < CScene.SizeX-1)
+            if (!CScene.GetCollision(X + 1, Y))
             {
                 X++;
             }
@@ -34,7 +34,7 @@ namespace GameFrameWork
         //move one space to the left
         private void MoveLeft()
         {
-            if (X > 0)
+            if (!CScene.GetCollision(X - 1, Y))
             {
                 X--;
             }
@@ -42,7 +42,7 @@ namespace GameFrameWork
 
         private void MoveDown()
         {
-            if (Y < CScene.SizeY- 1)
+            if (!CScene.GetCollision(X, Y+ 1))
             {
                 Y++;
             }
@@ -50,10 +50,23 @@ namespace GameFrameWork
 
         private void MoveUp()
         {
-            if (Y > 0)
+
+            if (!CScene.GetCollision(X, Y - 1))
             {
                 Y--;
             }
         }
+        private void Travel(Room destination)
+        {
+            if (destination == null)
+            {
+                return;
+            }
+
+            CScene.RemoveEntity(this);
+            destination.AddEntity(this);
+            Game.CurrentScene = destination;
+        }
+        
     }
 }

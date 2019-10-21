@@ -11,17 +11,18 @@ namespace GameFrameWork
         private List<Entity> _entities = new List<Entity>();
         private int _sizeX;
         private int _sizeY;
+        private bool[,] _collision;
 
-        public Scene()
+        public Scene() : this(12, 6)
         {
-            _sizeX = 24;
-            _sizeY = 6;
+
         }
 
         public Scene(int sizeX, int sizeY)
         {
             _sizeX = sizeX;
             _sizeY = sizeY;
+            _collision = new bool[_sizeX, _sizeY];
         }
 
         public int SizeX
@@ -53,13 +54,27 @@ namespace GameFrameWork
 
         public void Update()
         {
+            _collision = new bool[_sizeX, _sizeY];
+
             foreach (Entity e in _entities)
             {
                 e.Update();
+
+                int x = (int)e.X;
+                int y = (int)e.Y;
+
+                if (x >= 0 && x < _sizeX && y >= 0 && y < _sizeY)
+                {
+                    if (!_collision[x, y])
+                    {
+                        _collision[x, y] = e.Solid;
+                    }
+                }
             }
             //counter++;
         }
 
+        //called in Game every step to render
         public void Draw()
         {
             //clear the screen
@@ -78,7 +93,7 @@ namespace GameFrameWork
                 if (e.X >= 0 && e.X < _sizeX
                     && e.Y >= 0 && e.Y < _sizeY)
                 {
-                    display[e.X, e.Y] = e.Icon;
+                    display[(int)e.X, (int)e.Y] = e.Icon;
                 }
                 
             }
@@ -117,6 +132,18 @@ namespace GameFrameWork
                 e.CScene = null;
             }
             _entities.Clear();
+        }
+
+        public bool GetCollision(float x, float y)
+        {
+            if (x >= 0 && y >= 0 && x < _sizeX && y < _sizeY)
+            {
+                return _collision[(int)x, (int)y];
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }
