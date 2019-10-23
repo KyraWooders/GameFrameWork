@@ -8,12 +8,18 @@ namespace GameFrameWork
 {
     class Wall : Entity
     {
-        public Wall(int x, int y)
+        public Wall(int x, int y) : base('█', "Tok.jpg")
         {
             X = x;
             Y = y;
             Solid = true;
-            Icon = '█';
+        }
+
+        public Wall(int x, int y, string imageName) : base('█', imageName)
+        {
+            X = x;
+            Y = y;
+            Solid = true;
         }
     }
 }

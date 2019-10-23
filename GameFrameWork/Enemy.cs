@@ -22,6 +22,13 @@ namespace GameFrameWork
             OnUpdate += TouchPlayer;
         }
 
+        public Enemy(string imageName) : base('*', imageName)
+        {
+            _facing = Direction.North;
+            OnUpdate += Move;
+            OnUpdate += TouchPlayer;
+        }
+
         //Check to see if the Enemy has touched a player and remove itself if so
         private void TouchPlayer()
         {
@@ -39,6 +46,7 @@ namespace GameFrameWork
                 }
             }
 
+            //if we hit a player, remove this enemy from the scene
             if (hit)
             {
                 CurrentScene.RemoveEntity(this);

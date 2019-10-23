@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Raylib;
+using RL = Raylib.Raylib;
 
 namespace GameFrameWork
 {
@@ -22,7 +24,7 @@ namespace GameFrameWork
         public Event OnUpdate;
         public Event OnDraw;
 
-        public Scene() : this(12, 6)
+        public Scene() : this(24, 6)
         {
 
         }
@@ -34,8 +36,10 @@ namespace GameFrameWork
         {
             _sizeX = sizeX;
             _sizeY = sizeY;
+
             //create the collision grid
             _collision = new bool[_sizeX, _sizeY];
+
             //create the tracking grid
             _tracking = new List<Entity>[_sizeX, _sizeY];
         }
@@ -49,6 +53,7 @@ namespace GameFrameWork
             }
         }
 
+        //the vertical size of the scene
         public int SizeY
         {
             get
@@ -59,7 +64,7 @@ namespace GameFrameWork
 
 
         //int counter = 0;
-
+        //called in game when the scene should begin
         public void Start()
         {
             OnStart?.Invoke();
@@ -70,7 +75,7 @@ namespace GameFrameWork
             }
         }
 
-        //Called in Game every step to Update ec
+        //Called in Game every step to Update each entity in the scene
         public void Update()
         {
             OnUpdate?.Invoke();
@@ -130,6 +135,7 @@ namespace GameFrameWork
 
             //clear the screen
             Console.Clear();
+            RL.ClearBackground(Color.DARKBLUE);
             //Console.Write(counter);
 
             //create the display buffer
@@ -148,12 +154,16 @@ namespace GameFrameWork
 
             }
 
-            //render the display buffer to the screen
-            for (int i = 0; i < _sizeY; i++)
+            //render the display gird to the screen
+            for (int y = 0; y < _sizeY; y++)
             {
-                for (int t = 0; t < _sizeX; t++)
+                for (int x = 0; x < _sizeX; x++)
                 {
-                    Console.Write(display[t, i]);
+                    Console.Write(display[x, y]);
+                    foreach (Entity e in _tracking[x, y])
+                    {
+                        RL.DrawTexture(e.Sprite, x * Game.SizeX, y * Game.SizeY, Color.WHITE);
+                    }
                 }
                 Console.WriteLine();
             }
@@ -165,7 +175,7 @@ namespace GameFrameWork
             }
         }
 
-        //Add an Entity to the Scene
+        //Add an Entity to the Scene and set the scene as the entity;s scene
         public void AddEntity(Entity entity)
         {
             _entities.Add(entity);
@@ -182,19 +192,22 @@ namespace GameFrameWork
         //clear the Scene of Entities
         public void ClearEntities()
         {
-            //nullify each entities; scene
+            //nullify each entity's scene
             foreach (Entity e in _entities)
             {
                 RemoveEntity(e);
             }
         }
 
+        //returns whether there is a solid entity at the point
         public bool GetCollision(float x, float y)
         {
+            //ensure the point is within the scene
             if (x >= 0 && y >= 0 && x < _sizeX && y < _sizeY)
             {
                 return _collision[(int)x, (int)y];
             }
+
             //a point outside the scene is not a collision
             else
             {

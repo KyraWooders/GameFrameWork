@@ -3,21 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Raylib;
+using RL = Raylib.Raylib;
 
 namespace GameFrameWork
 {
     class Game
     {
+        public static readonly int SizeX = 16;
+        public static readonly int SizeY = 16;
+
         //Whether or not the Game should finish Running and Exit
         public static bool Gameover = false;
+
         //the scene we are currently 
         private static Scene _currentScene;
-        //creates a gmae and new scene instance as i
+
+        //creates a game and new scene instance as instance as its active scene
         public Game()
         {
-            
+            RL.InitWindow(640, 480, "Hello World");
+            RL.SetTargetFPS(15);
         }
 
+        
         private void Init()
         {
             Room startingRoom = new Room();
@@ -25,7 +34,8 @@ namespace GameFrameWork
             Room eastRoom = new Room();
             Room southRoom = new Room();
 
-            Enemy enemy = new Enemy();
+            //create an enemy
+            Enemy enemy = new Enemy("Fumikage_Full_Body_Hero_Costume.png");
 
             void StartNorthRoom()
             {
@@ -102,12 +112,15 @@ namespace GameFrameWork
                 eastRoom.AddEntity(new Wall(i, 5));
             }
 
-            Player player = new Player();
+            //create a player and position it
+            Player player = new Player("untitled.png");
             player.X = 4;
             player.Y = 3;
 
+            //add the player to the starting room
             startingRoom.AddEntity(player);
-            //add
+
+            //add enemy to the northroom
             northRoom.AddEntity(enemy);
 
             CurrentScene = startingRoom;
@@ -115,19 +128,27 @@ namespace GameFrameWork
         
         public void Run()
         {
-            PlayerInput.AddKeyEvent(Quit, ConsoleKey.Escape);
+            //bind Ecs to exit the game (no longre needed)
+            //PlayerInput.AddKeyEvent(Quit, ConsoleKey.Escape);
 
             Init();
             
             //loop til the game is over
-            while (!Gameover)
+            while (!Gameover && !RL.WindowShouldClose())
             {
                 _currentScene.Update();
+
+                RL.BeginDrawing();
                 _currentScene.Draw();
+                RL.EndDrawing();
+
                 PlayerInput.ReadKey();
             }
+
+            RL.CloseWindow();
         }
-        //the scene we are currently running
+
+        //the scene we are currently running and start the first scene
         public static Scene CurrentScene
         {
             set
