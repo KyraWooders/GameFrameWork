@@ -41,10 +41,10 @@ namespace GameFrameWork
                 _location.y = value;
             }
         }
-        public Scene CurrentScene { get; set; }
+        
 
         private Scene _scene;
-        public Scene CScene
+        public Scene CurrentScene
         {
             set
             {

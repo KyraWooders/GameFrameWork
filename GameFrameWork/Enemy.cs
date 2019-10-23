@@ -10,6 +10,7 @@ namespace GameFrameWork
     {
         private Direction _facing;
 
+        //
         public Enemy() : this('*')
         {
 
@@ -21,10 +22,13 @@ namespace GameFrameWork
             OnUpdate += TouchPlayer;
         }
 
+        //Check to see if the Enemy has touched a player and remove itself if so
         private void TouchPlayer()
         {
-            List<Entity> touched;
-            touched = CurrentScene.GetEntities(X, Y);
+            //get the list of Entities in our space
+            List<Entity> touched = CurrentScene.GetEntities(X, Y);
+            
+            //check if any of them are players
             bool hit = false;
             foreach (Entity e in touched)
             {
@@ -61,7 +65,7 @@ namespace GameFrameWork
         }
         private void MoveDown()
         {
-            if (!CScene.GetCollision(X, Y + 1))
+            if (!CurrentScene.GetCollision(X, Y + 1))
             {
                 Y++;
             }
@@ -72,7 +76,7 @@ namespace GameFrameWork
         }
         private void MoveRight()
         {
-            if (!CScene.GetCollision(X + 1, Y))
+            if (!CurrentScene.GetCollision(X + 1, Y))
             {
                 X++;
             }
@@ -83,7 +87,7 @@ namespace GameFrameWork
         }
         private void MoveLeft()
         {
-            if (!CScene.GetCollision(X - 1, Y))
+            if (!CurrentScene.GetCollision(X - 1, Y))
             {
                 X--;
             }
@@ -95,7 +99,7 @@ namespace GameFrameWork
 
         private void MoveUp()
         {
-            if (!CScene.GetCollision(X, Y - 1))
+            if (!CurrentScene.GetCollision(X, Y - 1))
             {
                 Y--;
             }

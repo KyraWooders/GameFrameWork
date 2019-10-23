@@ -24,16 +24,16 @@ namespace GameFrameWork
         //Move one space to the right
         private void MoveRight()
         {
-            if (X + 1 >= CScene.SizeX)
+            if (X + 1 >= CurrentScene.SizeX)
             {
-                if (CScene is Room)
+                if (CurrentScene is Room)
                 {
-                    Room dest = (Room)CScene;
+                    Room dest = (Room)CurrentScene;
                     Travel(dest.East);
                 }
                 X = 0;
             }
-            else if (!CScene.GetCollision(X + 1, Y))
+            else if (!CurrentScene.GetCollision(X + 1, Y))
             {
                 X++;
             }
@@ -44,14 +44,14 @@ namespace GameFrameWork
         {
             if (X - 1 < 0)
             {
-                if (CScene is Room)
+                if (CurrentScene is Room)
                 {
-                    Room dest = (Room)CScene;
+                    Room dest = (Room)CurrentScene;
                     Travel(dest.West);
                 }
-                X = CScene.SizeX - 1;
+                X = CurrentScene.SizeX - 1;
             }
-            else if (!CScene.GetCollision(X - 1, Y))
+            else if (!CurrentScene.GetCollision(X - 1, Y))
             {
                 X--;
             }
@@ -59,16 +59,16 @@ namespace GameFrameWork
 
         private void MoveDown()
         {
-            if (Y + 1 >= CScene.SizeY)
+            if (Y + 1 >= CurrentScene.SizeY)
             {
-                if (CScene is Room)
+                if (CurrentScene is Room)
                 {
-                    Room dest = (Room)CScene;
+                    Room dest = (Room)CurrentScene;
                     Travel(dest.South);
                 }
                 Y = 0;
             }
-            else if (!CScene.GetCollision(X, Y + 1))
+            else if (!CurrentScene.GetCollision(X, Y + 1))
             {
                 Y++;
             }
@@ -78,14 +78,14 @@ namespace GameFrameWork
         {
             if (Y - 1 < 0)
             {
-                if (CScene is Room)
+                if (CurrentScene is Room)
                 {
-                    Room dest = (Room)CScene;
+                    Room dest = (Room)CurrentScene;
                     Travel(dest.North);
                 }
-                Y = CScene.SizeY - 1;
+                Y = CurrentScene.SizeY - 1;
             }
-            else if (!CScene.GetCollision(X, Y - 1))
+            else if (!CurrentScene.GetCollision(X, Y - 1))
             {
                 Y--;
             }
@@ -100,7 +100,7 @@ namespace GameFrameWork
                 return;
             }
             //remove the player from its current 
-            CScene.RemoveEntity(this);
+            CurrentScene.RemoveEntity(this);
             destination.AddEntity(this);
             Game.CurrentScene = destination;
         }

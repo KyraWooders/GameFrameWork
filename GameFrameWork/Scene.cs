@@ -8,7 +8,10 @@ namespace GameFrameWork
 {
     class Scene
     {
+        //teh list of all th eEnities in the scene
         private List<Entity> _entities = new List<Entity>();
+        //
+        private List<Entity> _removals = new List<Entity>();
         private int _sizeX;
         private int _sizeY;
         private bool[,] _collision;
@@ -67,12 +70,14 @@ namespace GameFrameWork
             }
         }
 
+        //Called in Game every step to Update ec
         public void Update()
         {
             OnUpdate?.Invoke();
 
             //clear the collision grid
             _collision = new bool[_sizeX, _sizeY];
+
             //Clear the tracking grid
             for (int i = 0; i < _sizeY; i++)
             {
@@ -82,11 +87,16 @@ namespace GameFrameWork
                 }
             }
 
+            foreach(Entity e in _removals)
+            {
+                //remove e from _entities
+                _entities.Remove(e);
+            }
+
+            _removals.Clear();
+
             foreach (Entity e in _entities)
             {
-                //call the Entity's Update events
-                e.Update();
-
                 //set the Entity"s collision in the collision grid
                 int x = (int)e.X;
                 int y = (int)e.Y;
@@ -103,6 +113,12 @@ namespace GameFrameWork
                         _collision[x, y] = e.Solid;
                     }
                 }
+            }
+
+            foreach (Entity e in _entities)
+            {
+                //call the Entity's Update events
+                e.Update();
             }
             //counter++;
         }
@@ -121,8 +137,7 @@ namespace GameFrameWork
 
             foreach (Entity e in _entities)
             {
-                //call the Entity' draw events
-                e.Draw();
+
 
                 //Position each Entity's icon in display
                 if (e.X >= 0 && e.X < _sizeX
@@ -130,7 +145,7 @@ namespace GameFrameWork
                 {
                     display[(int)e.X, (int)e.Y] = e.Icon;
                 }
-                
+
             }
 
             //render the display buffer to the screen
@@ -142,31 +157,36 @@ namespace GameFrameWork
                 }
                 Console.WriteLine();
             }
-            
+
+            foreach (Entity e in _entities)
+            {
+                //call the Entity' draw events
+                e.Draw();
+            }
         }
 
         //Add an Entity to the Scene
         public void AddEntity(Entity entity)
         {
             _entities.Add(entity);
-            entity.CScene = this;
+            entity.CurrentScene = this;
         }
 
         //Remove an Entity from the Scene
         public void RemoveEntity(Entity entity)
         {
-            _entities.Remove(entity);
-            entity.CScene = null;
+            _removals.Add(entity);
+            entity.CurrentScene = null;
         }
 
         //clear the Scene of Entities
         public void ClearEntities()
         {
+            //nullify each entities; scene
             foreach (Entity e in _entities)
             {
-                e.CScene = null;
+                RemoveEntity(e);
             }
-            _entities.Clear();
         }
 
         public bool GetCollision(float x, float y)
