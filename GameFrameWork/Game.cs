@@ -157,8 +157,8 @@ namespace GameFrameWork
                 //Update the active Scene
                 _currentScene.Update();
 
-                //int mouseX = (RL.GetMouseX() - 320) / 32;
-                //int mouseY = (RL.GetMouseY() - 240) / 32;
+                //int mouseX = (RL.GetMouseX() - 320) / 16;
+                //int mouseY = (RL.GetMouseY() - 240) / 16;
                 //Raylib.Vector3 cameraPosition = new Raylib.Vector3(mouseX, mouseY, -100);
                 //Raylib.Vector3 cameraTarget = new Raylib.Vector3(mouseX, mouseY, 0);
                 //Raylib.Vector3 cameraUp = new Raylib.Vector3(1, 1, 1);

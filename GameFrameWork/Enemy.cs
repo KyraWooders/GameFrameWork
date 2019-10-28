@@ -10,7 +10,7 @@ namespace GameFrameWork
     {
         private Direction _facing;
 
-        public float Speed { get; set; } = 0.5f;
+        public float Speed { get; set; } = 0.05f;
 
         //cretes a new enemy represented by the 'e' symdol and rat image
         public Enemy() : this('*')

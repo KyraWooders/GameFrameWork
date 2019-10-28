@@ -63,5 +63,14 @@ namespace GameFrameWork
             float diffy = y - other.y;
             return (float)Math.Sqrt(diffx * diffx + diffy * diffy);
         }
+
+        public float Dot(Vectoer2 other)
+        {
+            
+        }
+        public float Cross(Vectoer2 other)
+        {
+
+        }
     }
 }
