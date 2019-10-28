@@ -8,14 +8,14 @@ using RL = Raylib.Raylib;
 
 namespace GameFrameWork
 {
-    static class PlayerInput
+    class PlayerInput
     {
         private delegate void KeyEvent(int key);
 
-        private static KeyEvent OnKeyPress;
+        private KeyEvent OnKeyPress;
 
         //binds the specified event to the specified consolekey
-        public static void AddKeyEvent(Event action, int key)
+        public void AddKeyEvent(Event action, int key)
         {
             //local method that takes a consolekey and calls actiion if the specifi
             void keyPressed(int keyPress)
@@ -31,7 +31,7 @@ namespace GameFrameWork
         }
 
         //gets input from the console 
-        public static void ReadKey()
+        public void ReadKey()
         {
             //ConsoleKey inputKey = Console.ReadKey().Key;
             int inputKey = RL.GetKeyPressed();

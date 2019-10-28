@@ -12,7 +12,9 @@ namespace GameFrameWork
     {
         //teh list of all th eEnities in the scene
         private List<Entity> _entities = new List<Entity>();
-        //
+        //the list of entities to add to the scenes
+        private List<Entity> _additions = new List<Entity>();
+        //the list of 
         private List<Entity> _removals = new List<Entity>();
         private int _sizeX;
         private int _sizeY;
@@ -71,6 +73,7 @@ namespace GameFrameWork
 
             foreach (Entity e in _entities)
             {
+                //
                 e.Start();
             }
         }
@@ -92,12 +95,21 @@ namespace GameFrameWork
                 }
             }
 
-            foreach(Entity e in _removals)
+            //add all the entities readied for addition
+            foreach (Entity e in _additions)
+            {
+                //add e from _entities
+                _entities.Add(e);
+            }
+            _additions.Clear();
+
+            //remove all the entities readied for removal
+            foreach (Entity e in _removals)
             {
                 //remove e from _entities
                 _entities.Remove(e);
             }
-
+            //resetthe removal list
             _removals.Clear();
 
             foreach (Entity e in _entities)
@@ -162,7 +174,7 @@ namespace GameFrameWork
                     Console.Write(display[x, y]);
                     foreach (Entity e in _tracking[x, y])
                     {
-                        RL.DrawTexture(e.Sprite, x * Game.SizeX, y * Game.SizeY, Color.WHITE);
+                        RL.DrawTexture(e.Sprite, (int)(e.X * Game.SizeX), (int)(e.Y * Game.SizeY), Color.WHITE);
                     }
                 }
                 Console.WriteLine();
@@ -178,14 +190,18 @@ namespace GameFrameWork
         //Add an Entity to the Scene and set the scene as the entity;s scene
         public void AddEntity(Entity entity)
         {
-            _entities.Add(entity);
+            //ready the entity for addition
+            _additions.Add(entity);
+            //set this scene as the entity's scene
             entity.CurrentScene = this;
         }
 
         //Remove an Entity from the Scene
         public void RemoveEntity(Entity entity)
         {
+            //
             _removals.Add(entity);
+            //
             entity.CurrentScene = null;
         }
 

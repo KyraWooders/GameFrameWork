@@ -10,7 +10,9 @@ namespace GameFrameWork
     {
         private Direction _facing;
 
-        //
+        public float Speed { get; set; } = 0.5f;
+
+        //cretes a new enemy represented by the 'e' symdol and rat image
         public Enemy() : this('*')
         {
 
@@ -71,14 +73,18 @@ namespace GameFrameWork
                     break;
             }
         }
+
         private void MoveDown()
         {
+            //move down if the space is clear
             if (!CurrentScene.GetCollision(X, Y + 1))
             {
-                Y++;
+                YVelocity = Speed;
             }
+            //Otherwise stop and change direction
             else
             {
+                YVelocity = 0f;
                 _facing++;
             }
         }
@@ -86,10 +92,11 @@ namespace GameFrameWork
         {
             if (!CurrentScene.GetCollision(X + 1, Y))
             {
-                X++;
+                XVelocity = Speed;
             }
             else
             {
+                XVelocity = 0f;
                 _facing++;
             }
         }
@@ -97,22 +104,25 @@ namespace GameFrameWork
         {
             if (!CurrentScene.GetCollision(X - 1, Y))
             {
-                X--;
+                XVelocity = -Speed;
             }
             else
             {
+                XVelocity = 0f;
                 _facing = Direction.North;
             }
         }
 
+        //move one space up
         private void MoveUp()
         {
             if (!CurrentScene.GetCollision(X, Y - 1))
             {
-                Y--;
+                YVelocity = -Speed;
             }
             else
             {
+                YVelocity = 0f;
                 _facing++;
             }
         }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Raylib;
 using RL = Raylib.Raylib;
+using System.IO;
 
 namespace GameFrameWork
 {
@@ -15,15 +16,24 @@ namespace GameFrameWork
 
         //Whether or not the Game should finish Running and Exit
         public static bool Gameover = false;
-
         //the scene we are currently 
         private static Scene _currentScene;
+        //the scene we are about to go to
+        private static Scene _nextScene;
+        //the camera for the 3D View
+        private Camera3D _camera;
 
         //creates a game and new scene instance as instance as its active scene
         public Game()
         {
             RL.InitWindow(640, 480, "Hello World");
             RL.SetTargetFPS(15);
+
+            //Raylib.Vector3 cameraPosition = new Raylib.Vector3(-10, -10, -10);
+            //Raylib.Vector3 cameraTarget = new Raylib.Vector3(0, 0, 0);
+            //Raylib.Vector3 cameraUp = new Raylib.Vector3(0, 0, 1);
+
+            //_camera = new Camera3D(cameraPosition, cameraTarget, cameraUp);
         }
 
         
@@ -33,10 +43,22 @@ namespace GameFrameWork
             Room northRoom = new Room();
             Room eastRoom = new Room();
             Room southRoom = new Room();
+            
+            //create a player and position it
+            Player player = new Player("crying.jpg");
+            player.X = 4;
+            player.Y = 3;
+
+            //add the player to the starting room
+            startingRoom.AddEntity(player);
 
             //create an enemy
-            Enemy enemy = new Enemy("Fumikage_Full_Body_Hero_Costume.png");
+            Enemy enemy = new Enemy("cryer.jpg");
 
+            //add enemy to the northroom
+            northRoom.AddEntity(enemy);
+
+            //reset teh enemy's poition when we enter the north room
             void StartNorthRoom()
             {
                 enemy.X = 4;
@@ -94,7 +116,7 @@ namespace GameFrameWork
                 {
                     southRoom.AddEntity(new Wall(i, 0));
                 }
-                    southRoom.AddEntity(new Wall(i, 5));
+                southRoom.AddEntity(new Wall(i, 5));
             }
 
             //walls for east room
@@ -112,17 +134,6 @@ namespace GameFrameWork
                 eastRoom.AddEntity(new Wall(i, 5));
             }
 
-            //create a player and position it
-            Player player = new Player("untitled.png");
-            player.X = 4;
-            player.Y = 3;
-
-            //add the player to the starting room
-            startingRoom.AddEntity(player);
-
-            //add enemy to the northroom
-            northRoom.AddEntity(enemy);
-
             CurrentScene = startingRoom;
         }
         
@@ -136,13 +147,30 @@ namespace GameFrameWork
             //loop til the game is over
             while (!Gameover && !RL.WindowShouldClose())
             {
+                //Start the Scene if needed
+                if (_currentScene != _nextScene)
+                {
+                    _currentScene = _nextScene;
+                    _currentScene.Start();
+                }
+
+                //Update the active Scene
                 _currentScene.Update();
 
-                RL.BeginDrawing();
-                _currentScene.Draw();
-                RL.EndDrawing();
+                //int mouseX = (RL.GetMouseX() - 320) / 32;
+                //int mouseY = (RL.GetMouseY() - 240) / 32;
+                //Raylib.Vector3 cameraPosition = new Raylib.Vector3(mouseX, mouseY, -100);
+                //Raylib.Vector3 cameraTarget = new Raylib.Vector3(mouseX, mouseY, 0);
+                //Raylib.Vector3 cameraUp = new Raylib.Vector3(1, 1, 1);
 
-                PlayerInput.ReadKey();
+                //_camera = new Camera3D(cameraPosition, cameraTarget, cameraUp);
+
+                //Draw the active Scene
+                RL.BeginDrawing();
+                //RL.BeginMode3D(_camera);
+                _currentScene.Draw();
+                //RL.EndMode3D();
+                RL.EndDrawing();
             }
 
             RL.CloseWindow();
@@ -153,8 +181,7 @@ namespace GameFrameWork
         {
             set
             {
-                _currentScene = value;
-                _currentScene.Start();
+                _nextScene = value;
             }
             get
             {
@@ -166,5 +193,45 @@ namespace GameFrameWork
         {
             Gameover = true;
         }
+
+        //private Room LoadRoom(string path)
+        //{
+        //    StreamReader reader = new StreamReader(path);
+
+        //    int width, height;
+
+        //    Int32.TryParse(reader.ReadLine(), out width);
+        //    Int32.TryParse(reader.ReadLine(), out height);
+
+        //    Room room = new Room(width, height);
+
+        //    for (int y = 0; y < height; y++)
+        //    {
+        //        string row = reader.ReadLine();
+        //        for (int x = 0, x < width; x++)
+        //        {
+        //            char title = row[x];
+        //            switch (title)
+        //            {
+        //                case '1':
+        //                    room.AddEntity(new Wall(x, y));
+        //                    break;
+        //                case '@':
+        //                    Player p = new Player();
+        //                    p.X = x;
+        //                    p.Y = y;
+        //                    room.AddEntity(p);
+        //                    break;
+        //                case 'e':
+        //                    Enemy e = new Enemy();
+        //                    e.X = x;
+        //                    e.Y = y;
+        //                    room.AddEntity(e);
+        //                    break;
+        //            }
+        //        }
+        //    }
+        //    return room;
+        //}
     }
 }

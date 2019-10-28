@@ -28,21 +28,38 @@ namespace GameFrameWork
         }
         public static Vector3 operator *(Vector3 lhs, float rhs)
         {
-            return new Vector3(lhs.x * rhs, lhs.y * rhs, lhs.z - rhs);
+            return new Vector3(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs);
         }
 
         public static Vector3 operator *(float lhs, Vector3 rhs)
         {
-            return new Vector3(lhs * rhs.x, lhs * rhs.y, lhs - rhs.z);
+            return new Vector3(lhs * rhs.x, lhs * rhs.y, lhs * rhs.z);
         }
 
         public static Vector3 operator /(Vector3 lhs, float rhs)
         {
-            return new Vector3(lhs.x / rhs, lhs.y / rhs, lhs.z - rhs);
+            return new Vector3(lhs.x / rhs, lhs.y / rhs, lhs.z / rhs);
         }
         public static Vector3 operator /(float lhs, Vector3 rhs)
         {
-            return new Vector3(lhs / rhs.x, lhs / rhs.y, lhs - rhs.z);
+            return new Vector3(lhs / rhs.x, lhs / rhs.y, lhs / rhs.z);
+        }
+
+        public float Magnitude()
+        {
+            return (float)Math.Sqrt(x * x + y * y + z * z);
+        }
+
+        public float MagitudeSqr()
+        {
+            return (x * x + y * y + z * z);
+        }
+        public float Distance(Vector3 other)
+        {
+            float diffx = x - other.x;
+            float diffy = y - other.y;
+            float diffz = z - other.z;
+            return (float)Math.Sqrt(diffx * diffx + diffy * diffy + diffz * diffz);
         }
     }
 }

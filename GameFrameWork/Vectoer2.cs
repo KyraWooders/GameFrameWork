@@ -48,5 +48,20 @@ namespace GameFrameWork
         {
             return new Vectoer2(lhs / rhs.x, lhs / rhs.y);
         }
+
+        public float Magnitude()
+        {
+            return (float)Math.Sqrt(x * x + y * y);
+        }
+        public float MagitudeSqr()
+        {
+            return (x * x + y * y);
+        }
+        public float Distance(Vectoer2 other)
+        {
+            float diffx = x - other.x;
+            float diffy = y - other.y;
+            return (float)Math.Sqrt(diffx * diffx + diffy * diffy);
+        }
     }
 }

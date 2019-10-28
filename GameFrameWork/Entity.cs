@@ -20,10 +20,12 @@ namespace GameFrameWork
         //the location of the entity
         private Vectoer2 _location = new Vectoer2();
 
+        //the velocity of the entity
+        private Vectoer2 _velocity = new Vectoer2();
         //the character representing the entity on the screen
         public char Icon { get; set; } = ' ';
+        //
         public Texture2D Sprite { get; set; }
-
         //whether or not this entity returns a collision
         public bool Solid { get; set; } = false;
 
@@ -39,6 +41,7 @@ namespace GameFrameWork
                 _location.x = value;
             }
         }
+        //the entity's location on the Y axis
         public float Y
         {
             get
@@ -50,7 +53,30 @@ namespace GameFrameWork
                 _location.y = value;
             }
         }
-        
+        //Entity's velocity on the X axis
+        public float XVelocity
+        {
+            get
+            {
+                return _velocity.x;
+            }
+            set
+            {
+                _velocity.x = value;
+            }
+        }
+        //Entity's velocity on the Y axis
+        public float YVelocity
+        {
+            get
+            {
+                return _velocity.y;
+            }
+            set
+            {
+                _velocity.y = value;
+            }
+        }
 
         private Scene _scene;
         public Scene CurrentScene
@@ -91,6 +117,7 @@ namespace GameFrameWork
         //call the entity's onupdate event
         public void Update()
         {
+            _location += _velocity;
             OnUpdate?.Invoke();
         }
 

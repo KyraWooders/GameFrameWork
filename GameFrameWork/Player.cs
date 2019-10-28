@@ -8,6 +8,8 @@ namespace GameFrameWork
 {
     class Player : Entity
     {
+        private PlayerInput _input = new PlayerInput();
+
         public Player() : this('@')
         {
 
@@ -15,22 +17,32 @@ namespace GameFrameWork
 
         public Player(string imageName) : base('@', imageName)
         {
-            PlayerInput.AddKeyEvent(MoveRight, 100);//D
-            PlayerInput.AddKeyEvent(MoveLeft, 97);//A
-            PlayerInput.AddKeyEvent(MoveUp, 119);//W
-            PlayerInput.AddKeyEvent(MoveDown, 115);//S
+
+            _input.AddKeyEvent(MoveRight, 100);//D
+            _input.AddKeyEvent(MoveLeft, 97);//A
+            _input.AddKeyEvent(MoveUp, 119);//W
+            _input.AddKeyEvent(MoveDown, 115);//S
+
+            OnUpdate += _input.ReadKey;
+        }
+
+        public Player(char icon, string imageName) : base(icon, imageName)
+        {
+            //bind movement methods to the arrow keys
+            _input.AddKeyEvent(MoveRight, 100);//D
+            _input.AddKeyEvent(MoveLeft, 97);//A
+            _input.AddKeyEvent(MoveUp, 119);//W
+            _input.AddKeyEvent(MoveDown, 115);//S
+            //add Readkey to this Entity's onupdate
+            OnUpdate += _input.ReadKey;
         }
 
         public Player(char icon) : base(icon)
         {
-            //bind movement
-            PlayerInput.AddKeyEvent(MoveRight, 100);//D
-            PlayerInput.AddKeyEvent(MoveLeft, 97);//A
-            PlayerInput.AddKeyEvent(MoveUp, 119);//W
-            PlayerInput.AddKeyEvent(MoveDown, 115);//S
+
         }
 
-        
+
         //Move one space to the right
         private void MoveRight()
         {
