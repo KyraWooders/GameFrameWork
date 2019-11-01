@@ -64,13 +64,32 @@ namespace GameFrameWork
             return (float)Math.Sqrt(diffx * diffx + diffy * diffy);
         }
 
-        public float Dot(Vectoer2 other)
+        public float Dot(Vectoer2 rhs)
         {
-            
+            return x * rhs.x + y * rhs.y;
         }
-        public float Cross(Vectoer2 other)
-        {
 
+        public override string ToString()
+        {
+            return "{"+ x + "," + y + "}";
+        }
+        
+        public void Normalize()
+        {
+            float m = Magnitude();
+            x /= m;
+            y /= m;
+        }
+
+        public Vectoer2 GetNormalize()
+        {
+            return (this / Magnitude());
+        }
+        public float GetAngle(Vectoer2 other)
+        {
+            Vectoer2 a = GetNormalize();
+            Vectoer2 b = other.GetNormalize();
+            return (float)Math.Acos(a.Dot(b));
         }
     }
 }

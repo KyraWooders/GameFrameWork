@@ -66,5 +66,9 @@ namespace GameFrameWork
             float diffw = w - other.w;
             return (float)Math.Sqrt(diffx * diffx + diffy * diffy + diffz * diffz + diffw * diffw);
         }
+        public override string ToString()
+        {
+            return "{" + x + "," + y + "," + z + "," + w + "}";
+        }
     }
 }

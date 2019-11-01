@@ -65,12 +65,31 @@ namespace GameFrameWork
         {
             return x * rhs.x + y * rhs.y + z * rhs.z;
         }
-        public float Cross(Vector3 rhs)
+        public Vector3 Cross(Vector3 rhs)
         {
-            return new Vector3(
-                y * rhs.z - z * rhs.y, 
-                z * rhs.x - x * rhs.z, 
-                x * rhs.y - y * rhs.x);
+            return new Vector3(y * rhs.z - z * rhs.y, z * rhs.x - x * rhs.z, x * rhs.y - y * rhs.x);
+        }
+        public override string ToString()
+        {
+            return "{" + x + "," + y + "," + z +"}";
+        }
+        public void Normalize()
+        {
+            float m = Magnitude();
+            x /= m;
+            y /= m;
+            z /= m;
+        }
+
+        public Vector3 GetNormalize()
+        {
+            return (this / Magnitude());
+        }
+        public float GetAngle(Vector3 other)
+        {
+            Vector3 a = GetNormalize();
+            Vector3 b = other.GetNormalize();
+            return (float)Math.Acos(a.Dot(b));
         }
     }
 }
