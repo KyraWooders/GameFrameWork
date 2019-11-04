@@ -11,9 +11,9 @@ namespace GameFrameWork
         static void Main(string[] args)
         {
             //Examples();
-            MatrixTest();
-            Console.ReadKey();
-            return;
+            //MatrixTest();
+            //Console.ReadKey();
+            //return;
             Game game = new Game();
             game.Run();
 
@@ -22,20 +22,20 @@ namespace GameFrameWork
         }
         static void Examples()
         {
-            Vectoer2 vec2 = new Vectoer2(3f, -2f);
+            Vector2 vec2 = new Vector2(3f, -2f);
             Console.WriteLine(vec2.Magnitude());
             Console.WriteLine(new Vector3(-1f, 1f, -1f).Magnitude());
             Console.WriteLine(new Vector3(0.5f, -1f, 0.25f).Magnitude());
 
 
             Console.WriteLine(new Vector3(0f, 1f, 2f).Distance(new Vector3(9f, -2f, 7f)));
-            Console.WriteLine(new Vectoer2(1f, 0f).Dot(new Vectoer2(0f, 1f)));
-            Console.WriteLine(new Vectoer2(1f, 1f).Dot(new Vectoer2(-1f, -1f)));
+            Console.WriteLine(new Vector2(1f, 0f).Dot(new Vector2(0f, 1f)));
+            Console.WriteLine(new Vector2(1f, 1f).Dot(new Vector2(-1f, -1f)));
             Console.WriteLine(new Vector3(2f, 3f, 1f).Dot(new Vector3(-3f, 1f, 2f)));
 
             Console.WriteLine(new Vector3(2f, 3f, 1f).Cross(new Vector3(-3f, 1f, 2f)));
 
-            Console.WriteLine(new Vectoer2(1f, 3f).GetAngle(new Vectoer2(0.5f, -0.25f)));
+            Console.WriteLine(new Vector2(1f, 3f).GetAngle(new Vector2(0.5f, -0.25f)));
             Console.WriteLine(new Vector3(-0.5f, 0f, 2f).GetAngle(new Vector3(-1f, 0, -1f)));
 
             Vector3 playerLoc = new Vector3(10f, 0f, 18f);

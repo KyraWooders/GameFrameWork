@@ -39,7 +39,7 @@ namespace GameFrameWork
             m31 = 0; m32 = 0; m33 = z;
         }
 
-        public void SetScald(Vector3 v)
+        public void SetScaled(Vector3 v)
         {
             m11 = v.x; m12 = 0; m13 = 0;
             m21 = 0; m22 = v.y; m23 = 0;
@@ -75,6 +75,13 @@ namespace GameFrameWork
                 lhs.m31 * rhs.x + lhs.m32 * rhs.y + lhs.m33 * rhs.z);
         }
 
+        public void Set(float m11, float m12, float m13, float m21, float m22, float m23, float m31, float m32, float m33)
+        {
+            this.m11 = m11; this.m12 = m12; this.m13 = m13;
+            this.m21 = m21; this.m22 = m22; this.m23 = m23;
+            this.m31 = m31; this.m32 = m32; this.m33 = m33;
+        }
+
         //
         public void Set(Matrix3 matrix3)
         {
@@ -83,11 +90,88 @@ namespace GameFrameWork
             m31 = matrix3.m31; m32 = matrix3.m32; m33 = matrix3.m33;
         }
 
-        
-
         public override string ToString()
         {
             return "{[" + m11 + "," + m12 + "," + m13 + "],[" + m21 + "," + m22 + "," + m23 + "],[" + m31 + "," + m32 + "," + m33 + "]}";
+        }
+
+        public void Scale(float x, float y, float z)
+        {
+            Matrix3 m = new Matrix3();
+            m.SetScaled(x, y, z);
+            Set(this * m);
+        }
+
+        public void Scale(Vector3 v)
+        {
+            Matrix3 m = new Matrix3();
+            m.SetScaled(v.x, v.y, v.z);
+            Set(this * m);
+        }
+
+        public void SetRotateX(double radians)
+        {
+            Set(1, 0, 0,
+                0, (float)Math.Cos(radians), (float)-Math.Sin(radians),
+                0, (float)Math.Sin(radians), (float)Math.Cos(radians));
+        }
+
+        public void SetRotateY(double radians)
+        {
+            Set((float)Math.Cos(radians), 0, (float)Math.Sin(radians),
+                0, 1, 0,
+                (float)-Math.Sin(radians), 0, (float)Math.Cos(radians));
+        }
+
+        public void SetRotateZ(double radians)
+        {
+            Set((float)Math.Cos(radians), (float)-Math.Sin(radians), 0,
+                (float)Math.Sin(radians), (float)Math.Cos(radians), 0,
+                0, 0, 1);
+        }
+
+        public void RotateX(double radians)
+        {
+            Matrix3 m = new Matrix3();
+            m.SetRotateX(radians);
+            Set(this * m);
+        }
+
+        public void RotateY(double radians)
+        {
+            Matrix3 m = new Matrix3();
+            m.SetRotateY(radians);
+            Set(this * m);
+        }
+
+        public void RotateZ(double radians)
+        {
+            Matrix3 m = new Matrix3();
+            m.SetRotateZ(radians);
+            Set(this * m);
+        }
+
+        void SetEuler(float pitch, float yaw, float roll)
+        {
+
+            Matrix3 x = new Matrix3();
+            Matrix3 y = new Matrix3();
+            Matrix3 z = new Matrix3();
+            x.SetRotateX(pitch);
+            y.SetRotateY(yaw);
+            z.SetRotateZ(roll);
+     
+            Set(z * y * x);
+        }
+
+        public void SetTranslation(float x, float y, float z)
+        {
+            m13 = x; m23 = y; m33 = z; 
+        }
+
+        public void Translate(float x, float y, float z)
+        {
+            m13 += x; m23 += y; m33 += z;
         }
     }
 }

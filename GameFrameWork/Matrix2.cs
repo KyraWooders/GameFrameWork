@@ -44,9 +44,9 @@ namespace GameFrameWork
                 lhs.m21 * rhs.m12 + lhs.m22 * rhs.m22);
         }
 
-        public static Vectoer2 operator *(Matrix2 lhs, Vectoer2 rhs)
+        public static Vector2 operator *(Matrix2 lhs, Vector2 rhs)
         {
-            return new Vectoer2(
+            return new Vector2(
                 lhs.m11 * rhs.x + lhs.m12 * rhs.y,
                 lhs.m21 * rhs.x + lhs.m22 * rhs.y);
         }

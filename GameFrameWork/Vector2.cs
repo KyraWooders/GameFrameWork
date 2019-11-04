@@ -6,47 +6,47 @@ using System.Threading.Tasks;
 
 namespace GameFrameWork
 {
-    class Vectoer2
+    class Vector2
     {
         public float x;
         public float y;
-        public Vectoer2()
+        public Vector2()
         {
             x = 0;
             y = 0;
         }
-        public Vectoer2(float x, float y)
+        public Vector2(float x, float y)
         {
             this.x = x;
             this.y = y;
         }
-        public static Vectoer2 operator +(Vectoer2 lhs, Vectoer2 rhs)
+        public static Vector2 operator +(Vector2 lhs, Vector2 rhs)
         {
-            return new Vectoer2(lhs.x + rhs.x, lhs.y + rhs.y);
+            return new Vector2(lhs.x + rhs.x, lhs.y + rhs.y);
         }
 
-        public static Vectoer2 operator -(Vectoer2 lhs, Vectoer2 rhs)
+        public static Vector2 operator -(Vector2 lhs, Vector2 rhs)
         {
-            return new Vectoer2(lhs.x - rhs.x, lhs.y - rhs.y);
+            return new Vector2(lhs.x - rhs.x, lhs.y - rhs.y);
         }
 
-        public static Vectoer2 operator *(Vectoer2 lhs, float rhs)
+        public static Vector2 operator *(Vector2 lhs, float rhs)
         {
-            return new Vectoer2(lhs.x * rhs, lhs.y * rhs);
+            return new Vector2(lhs.x * rhs, lhs.y * rhs);
         }
 
-        public static Vectoer2 operator *(float lhs, Vectoer2 rhs)
+        public static Vector2 operator *(float lhs, Vector2 rhs)
         {
-            return new Vectoer2(lhs * rhs.x, lhs * rhs.y);
+            return new Vector2(lhs * rhs.x, lhs * rhs.y);
         }
 
-        public static Vectoer2 operator /(Vectoer2 lhs, float rhs)
+        public static Vector2 operator /(Vector2 lhs, float rhs)
         {
-            return new Vectoer2(lhs.x / rhs, lhs.y / rhs);
+            return new Vector2(lhs.x / rhs, lhs.y / rhs);
         }
-        public static Vectoer2 operator /(float lhs, Vectoer2 rhs)
+        public static Vector2 operator /(float lhs, Vector2 rhs)
         {
-            return new Vectoer2(lhs / rhs.x, lhs / rhs.y);
+            return new Vector2(lhs / rhs.x, lhs / rhs.y);
         }
 
         public float Magnitude()
@@ -57,14 +57,14 @@ namespace GameFrameWork
         {
             return (x * x + y * y);
         }
-        public float Distance(Vectoer2 other)
+        public float Distance(Vector2 other)
         {
             float diffx = x - other.x;
             float diffy = y - other.y;
             return (float)Math.Sqrt(diffx * diffx + diffy * diffy);
         }
 
-        public float Dot(Vectoer2 rhs)
+        public float Dot(Vector2 rhs)
         {
             return x * rhs.x + y * rhs.y;
         }
@@ -81,14 +81,14 @@ namespace GameFrameWork
             y /= m;
         }
 
-        public Vectoer2 GetNormalize()
+        public Vector2 GetNormalize()
         {
             return (this / Magnitude());
         }
-        public float GetAngle(Vectoer2 other)
+        public float GetAngle(Vector2 other)
         {
-            Vectoer2 a = GetNormalize();
-            Vectoer2 b = other.GetNormalize();
+            Vector2 a = GetNormalize();
+            Vector2 b = other.GetNormalize();
             return (float)Math.Acos(a.Dot(b));
         }
     }
