@@ -17,7 +17,7 @@ namespace Raylib
         PHYSICS_POLYGON
     }
 
-    // Mat2 type (used for polygon shape rotation matrix)
+    // Mat2 type (used for polygon shape Rotation matrix)
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     public struct Mat2
     {

@@ -19,18 +19,20 @@ namespace GameFrameWork
 
         //the location of the entity
         //private Vector2 _location = new Vector2();
-        private Vector3 _location = new Vector3(0, 0, 1);
+        //private Vector3 _location = new Vector3(0, 0, 1);
         //the velocity of the entity
-        //private Vector2 _velocity = new Vector2();
+        private Vector2 _velocity = new Vector2();
         //private Matrix3 _transform = new Matrix3();
-        private Matrix3 _translation = new Matrix3();
-        private Matrix3 _rotation = new Matrix3();
+        //private Matrix3 _translation = new Matrix3();
+        //private Matrix3 _rotation = new Matrix3();
         //private Matrix3 _scale = new Matrix3();
-        private float _scale = 1.0f;
+        //private float _scale = 1.0f;
+        private Matrix3 _localTransform = new Matrix3();
+        private Matrix3 _globalTransform = new Matrix3();
 
         //the character representing the entity on the screen
         public char Icon { get; set; } = ' ';
-        //teh image re
+        //teh image represing the entity on the screen
         public Texture2D Sprite { get; set; }
         //whether or not this entity returns a collision
         public bool Solid { get; set; } = false;
@@ -40,11 +42,11 @@ namespace GameFrameWork
         {
             get
             {
-                return _location.x;
+                return _localTransform.m13;
             }
             set
             {
-                _location.x = value;
+                _localTransform.SetTranslation(value, Y, 1);
             }
         }
         //the entity's location on the Y axis
@@ -52,11 +54,11 @@ namespace GameFrameWork
         {
             get
             {
-                return _location.y;
+                return _localTransform.m23;
             }
             set
             {
-                _location.y = value;
+                _localTransform.SetTranslation(X, value, 1);
             }
         }
         //Entity's velocity on the X axis
@@ -64,13 +66,13 @@ namespace GameFrameWork
         {
             get
             {
-                //return _velocity.x;
-                return _translation.m13;
+                return _velocity.x;
+                //return _translation.m13;
             }
             set
             {
-                //_velocity.x = value;
-                _translation.SetTranslation(value, YVelocity, 1);
+                _velocity.x = value;
+                //_translation.SetTranslation(value, YVelocity, 1);
             }
         }
         //Entity's velocity on the Y axis
@@ -78,38 +80,41 @@ namespace GameFrameWork
         {
             get
             {
-                //return _velocity.y;
-                return _translation.m23;
+                return _velocity.y;
+                //return _translation.m23;
             }
             set
             {
-                //_velocity.y = value;
-                _translation.SetTranslation(XVelocity, value, 1);
+                _velocity.y = value;
+                //_translation.SetTranslation(XVelocity, value, 1);
             }
         }
         //thge entity's scale
-        public float Scale
+        public float Size
         {
             get
             {
-                return _scale;
+                //return _scal
+                //return _scale;
+                return 1;
             }
-            set
-            {
-                _scale = value;
-            }
+            //set
+            //{
+            //    _localTransform.SetScaled(value, value, 1);
+            //    //_scale = value;
+            //}
         }
-        //the entity's rotation in radians
-        public float rotation
+        //the entity's Rotation in radians
+        public float Rotation
         {
             get
             {
-                return (float)Math.Atan2(_rotation.m12, _rotation.m11);
+                return (float)Math.Atan2(_localTransform.m21, _localTransform.m11);
             }
-            set
-            {
-                _rotation.SetRotateZ(value);
-            }
+            //set
+            //{
+            //    _localTransform.SetRotateZ(value);
+            //}
         }
 
         
@@ -143,6 +148,18 @@ namespace GameFrameWork
             Sprite = RL.LoadTexture(imageName);
         }
 
+        //scale the entitu by the specified amount
+        public void Scale(float width, float height)
+        {
+            _localTransform.Scale(width, height, 1);
+        }
+
+        //rotate the entity by the specifed amount
+        public void Rotate(float radians)
+        {
+            _localTransform.RotateZ(radians);
+        }
+
         //call the entity's onstart event
         public void Start()
         {
@@ -153,8 +170,10 @@ namespace GameFrameWork
         public void Update()
         {
             //_location += _velocity;
-            Matrix3 transform = _translation * _rotation;
-            _location = transform * _location;
+            //Matrix3 transform = _translation * _rotation;
+            //_location = transform * _location;
+            X += _velocity.x;
+            Y += _velocity.y;
             OnUpdate?.Invoke();
         }
 

@@ -57,7 +57,6 @@ namespace GameFrameWork
 
         private void Move()
         {
-            rotation = 5;
             switch (_facing)
             {
                 case Direction.North:

@@ -64,7 +64,7 @@ namespace Raylib
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern float Vector2Angle(Vector2 v1, Vector2 v2);
 
-        // Scale vector (multiply by value)
+        // Size vector (multiply by value)
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Vector2 Vector2Scale(Vector2 v, float scale);
 
@@ -137,7 +137,7 @@ namespace Raylib
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern float Vector3Distance(Vector3 v1, Vector3 v2);
 
-        // Scale provided vector
+        // Size provided vector
 
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Vector3 Vector3Scale(Vector3 v, float scale);
@@ -168,7 +168,7 @@ namespace Raylib
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Vector3 Vector3Transform(Vector3 v, Matrix mat);
 
-        // Transform a vector by quaternion rotation
+        // Transform a vector by quaternion Rotation
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Vector3 Vector3RotateByQuaternion(Vector3 v, Quaternion q);
 
@@ -233,20 +233,20 @@ namespace Raylib
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Matrix MatrixTranslate(float x, float y, float z);
 
-        // Create rotation matrix from axis and angle
+        // Create Rotation matrix from axis and angle
         // NOTE: Angle should be provided in radians
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Matrix MatrixRotate(Vector3 axis, float angle);
 
-        // Returns x-rotation matrix (angle in radians)
+        // Returns x-Rotation matrix (angle in radians)
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Matrix MatrixRotateX(float angle);
 
-        // Returns y-rotation matrix (angle in radians)
+        // Returns y-Rotation matrix (angle in radians)
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Matrix MatrixRotateY(float angle);
 
-        // Returns z-rotation matrix (angle in radians)
+        // Returns z-Rotation matrix (angle in radians)
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Matrix MatrixRotateZ(float angle);
 
@@ -312,11 +312,11 @@ namespace Raylib
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Quaternion QuaternionSlerp(Quaternion q1, Quaternion q2, float amount);
 
-        // Calculate quaternion based on the rotation from one vector to another
+        // Calculate quaternion based on the Rotation from one vector to another
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Quaternion QuaternionFromVector3ToVector3(Vector3 from, Vector3 to);
 
-        // Returns a quaternion for a given rotation matrix
+        // Returns a quaternion for a given Rotation matrix
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Quaternion QuaternionFromMatrix(Matrix mat);
 
@@ -324,12 +324,12 @@ namespace Raylib
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Matrix QuaternionToMatrix(Quaternion q);
 
-        // Returns rotation quaternion for an angle and axis
+        // Returns Rotation quaternion for an angle and axis
         // NOTE: angle must be provided in radians
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern Quaternion QuaternionFromAxisAngle(Vector3 axis, float angle);
 
-        // Returns the rotation angle and axis for a given quaternion
+        // Returns the Rotation angle and axis for a given quaternion
         [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void QuaternionToAxisAngle(Quaternion q, ref Vector3 outAxis, ref float outAngle);
 

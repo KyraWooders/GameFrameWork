@@ -156,7 +156,7 @@ namespace Raylib
     {
         public Vector3 position;        // Camera position
         public Vector3 target;          // Camera target it looks-at
-        public Vector3 up;              // Camera up vector (rotation over its axis)
+        public Vector3 up;              // Camera up vector (Rotation over its axis)
         public float fovy;              // Camera field-of-view apperture in Y (degrees) in perspective, used as near plane width in orthographic
         public CameraType type;         // Camera type, defines projection type: CAMERA_PERSPECTIVE or CAMERA_ORTHOGRAPHIC
     }
@@ -166,8 +166,8 @@ namespace Raylib
     public partial struct Camera2D
     {
         public Vector2 offset;        // Camera offset (displacement from target)
-        public Vector2 target;        // Camera target (rotation and zoom origin)
-        public float rotation;        // Camera rotation in degrees
+        public Vector2 target;        // Camera target (Rotation and zoom origin)
+        public float rotation;        // Camera Rotation in degrees
         public float zoom;            // Camera zoom (scaling), should be 1.0f by default
     }
 
@@ -227,7 +227,7 @@ namespace Raylib
     {
         public Vector3 translation;        // Translation
         public Vector4 rotation;           // Rotation
-        public Vector3 scale;              // Scale
+        public Vector3 scale;              // Size
     }
 
     // Bone information
