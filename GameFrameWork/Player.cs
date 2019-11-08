@@ -24,6 +24,7 @@ namespace GameFrameWork
             _input.AddKeyEvent(MoveDown, 115);//S
 
             OnUpdate += _input.ReadKey;
+            OnUpdate += Orbiit;
         }
 
         public Player(char icon, string imageName) : base(icon, imageName)
@@ -35,6 +36,7 @@ namespace GameFrameWork
             _input.AddKeyEvent(MoveDown, 115);//S
             //add Readkey to this Entity's onupdate
             OnUpdate += _input.ReadKey;
+            OnUpdate += Orbiit;
         }
 
         public Player(char icon) : base(icon)
@@ -42,6 +44,16 @@ namespace GameFrameWork
 
         }
 
+
+        private void Orbiit()
+        {
+            foreach (Entity child in _children)
+            {
+                child.Rotate(0.1f);
+            }
+
+            //Rotate(0.1f);
+        }
 
         //Move one space to the right
         private void MoveRight()

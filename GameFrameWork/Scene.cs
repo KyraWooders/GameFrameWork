@@ -115,8 +115,8 @@ namespace GameFrameWork
             foreach (Entity e in _entities)
             {
                 //set the Entity"s collision in the collision grid
-                int x = (int)e.X;
-                int y = (int)e.Y;
+                int x = (int)e.XAbsolute;
+                int y = (int)e.YAbsolute;
 
                 //only update if the entity is within bounds
                 if (x >= 0 && x < _sizeX && y >= 0 && y < _sizeY)
@@ -155,13 +155,14 @@ namespace GameFrameWork
 
             foreach (Entity e in _entities)
             {
-
+                int x = (int)e.XAbsolute;
+                int y = (int)e.YAbsolute;
 
                 //Position each Entity's icon in display
-                if (e.X >= 0 && e.X < _sizeX
-                    && e.Y >= 0 && e.Y < _sizeY)
+                if (x >= 0 && x < _sizeX
+                    && y >= 0 && y < _sizeY)
                 {
-                    display[(int)e.X, (int)e.Y] = e.Icon;
+                    display[x, y] = e.Icon;
                 }
 
             }
@@ -174,9 +175,13 @@ namespace GameFrameWork
                     Console.Write(display[x, y]);
                     foreach (Entity e in _tracking[x, y])
                     {
+                        if (e.Sprite == null)
+                        {
+                            continue;
+                        }
                         //RL.DrawTexture(e.Sprite, (int)(e.X * Game.SizeX), (int)(e.Y * Game.SizeY), Color.WHITE);
-                        Texture2D texture = e.Sprite;
-                        Raylib.Vector2 position = new Raylib.Vector2(e.X * Game.SizeX, e.Y * Game.SizeY);
+                        Texture2D texture = e.Sprite.Texture;
+                        Raylib.Vector2 position = new Raylib.Vector2(e.XAbsolute * Game.SizeX - e.OriginX, e.YAbsolute * Game.SizeY - e.OriginY);
                         float rotation = e.Rotation * (float)(180.0f/Math.PI);
                         float scale = e.Size;
                         RL.DrawTextureEx(texture, position, rotation, scale, Color.WHITE);

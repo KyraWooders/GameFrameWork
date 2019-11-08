@@ -49,8 +49,13 @@ namespace GameFrameWork
             player.X = 4;
             player.Y = 3;
 
+            Entity sword = new Entity('/', "cryingcat.jpg");
+            player.AddChild(sword);
+            sword.X+= 0.05f;
+            sword.Y += 0.05f;
             //add the player to the starting room
             startingRoom.AddEntity(player);
+            startingRoom.AddEntity(sword);
 
             //create an enemy
             Enemy enemy = new Enemy("cryer.jpg");

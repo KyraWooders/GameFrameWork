@@ -13,7 +13,7 @@ namespace GameFrameWork
             X = x;
             Y = y;
             Solid = true;
-            OnUpdate += Spin;
+            //OnUpdate += Spin;
         }
 
         public Wall(int x, int y, string imageName) : base('█', imageName)
@@ -23,10 +23,10 @@ namespace GameFrameWork
             Solid = true;
         }
 
-        void Spin()
-        {
-            Rotate(10f);
-            //Rotation = 0.01f;
-        }
+        //void Spin()
+        //{
+        //    Rotate(0.01f);
+        //    //Rotation = 0.01f;
+        //}
     }
 }
