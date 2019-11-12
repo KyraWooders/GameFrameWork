@@ -21,6 +21,7 @@ namespace GameFrameWork
         private bool[,] _collision;
         //the grid for Entity tracking
         private List<Entity>[,] _tracking;
+        private bool _started = false;
 
         public Event OnStart;
         public Event OnUpdate;
@@ -64,8 +65,14 @@ namespace GameFrameWork
             }
         }
 
-
-        //int counter = 0;
+        public bool Started
+        {
+            get
+            {
+                return _started;
+            }
+        }
+        
         //called in game when the scene should begin
         public void Start()
         {
@@ -73,9 +80,11 @@ namespace GameFrameWork
 
             foreach (Entity e in _entities)
             {
-                //
+                //call the entity's start events
                 e.Start();
             }
+
+            _started = true;
         }
 
         //Called in Game every step to Update each entity in the scene
@@ -115,8 +124,8 @@ namespace GameFrameWork
             foreach (Entity e in _entities)
             {
                 //set the Entity"s collision in the collision grid
-                int x = (int)e.XAbsolute;
-                int y = (int)e.YAbsolute;
+                int x = (int)Math.Round(e.XAbsolute);
+                int y = (int)Math.Round(e.YAbsolute);
 
                 //only update if the entity is within bounds
                 if (x >= 0 && x < _sizeX && y >= 0 && y < _sizeY)
@@ -155,10 +164,9 @@ namespace GameFrameWork
 
             foreach (Entity e in _entities)
             {
-                int x = (int)e.XAbsolute;
-                int y = (int)e.YAbsolute;
-
                 //Position each Entity's icon in display
+                int x = (int)Math.Round(e.XAbsolute);
+                int y = (int)Math.Round(e.YAbsolute);
                 if (x >= 0 && x < _sizeX
                     && y >= 0 && y < _sizeY)
                 {
@@ -179,11 +187,22 @@ namespace GameFrameWork
                         {
                             continue;
                         }
-                        //RL.DrawTexture(e.Sprite, (int)(e.X * Game.SizeX), (int)(e.Y * Game.SizeY), Color.WHITE);
+                        //RL.DrawTexture(e.Sprite, (int)(e.X * Game.UnitSizeX), (int)(e.Y * Game.UnitSizeY), Color.WHITE);
+                        //texture
                         Texture2D texture = e.Sprite.Texture;
-                        Raylib.Vector2 position = new Raylib.Vector2(e.XAbsolute * Game.SizeX - e.OriginX, e.YAbsolute * Game.SizeY - e.OriginY);
+
+                        //position
+                        float positionX = e.Sprite.XAbsolute * Game.UnitSize.x;
+                        float positionY = e.Sprite.YAbsolute * Game.UnitSize.y;
+                        Raylib.Vector2 position = new Raylib.Vector2(positionX, positionY);
+
+                        //rotation
                         float rotation = e.Rotation * (float)(180.0f/Math.PI);
-                        float scale = e.Size;
+
+                        //scale
+                        float scale = e.Sprite.Size;
+
+                        //draw
                         RL.DrawTextureEx(texture, position, rotation, scale, Color.WHITE);
                     }
                 }
@@ -200,6 +219,11 @@ namespace GameFrameWork
         //Add an Entity to the Scene and set the scene as the entity;s scene
         public void AddEntity(Entity entity)
         {
+            //Ensure the entity is not already added
+            if (_additions.Contains(entity))
+            {
+                return;
+            }
             //ready the entity for addition
             _additions.Add(entity);
             //set this scene as the entity's scene
@@ -209,7 +233,12 @@ namespace GameFrameWork
         //Remove an Entity from the Scene
         public void RemoveEntity(Entity entity)
         {
-            //
+            //Ensure the entity is not already removed
+            if (_removals.Contains(entity))
+            {
+                return;
+            }
+            //ready the entity for removal
             _removals.Add(entity);
             //
             entity.CurrentScene = null;
@@ -234,7 +263,7 @@ namespace GameFrameWork
                 return _collision[(int)x, (int)y];
             }
 
-            //a point outside the scene is not a collision
+            //a point outside the scene is !not a collision
             else
             {
                 return true;
@@ -244,10 +273,12 @@ namespace GameFrameWork
         //returns the list of Entities at a specified point
         public List<Entity> GetEntities(float x, float y)
         {
+            int checkX = (int)Math.Round(x);
+            int checkY = (int)Math.Round(y);
             //ensure the point is within the scene
-            if (x >= 0 && y >= 0 && x < _sizeX && y < _sizeY)
+            if (checkX >= 0 && checkY >= 0 && checkX < _sizeX && checkY < _sizeY)
             {
-                return _tracking[(int)x, (int)y];
+                return _tracking[checkX, checkY];
             }
             //a point outside the scene is not a collision
             else

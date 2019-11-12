@@ -11,21 +11,24 @@ namespace GameFrameWork
 {
     class Game
     {
-        public static readonly int SizeX = 16;
-        public static readonly int SizeY = 16;
+        //sprite size
+        public static readonly Vector2 UnitSize = new Vector2(16, 16);
+        //public static readonly int UnitSizeX = 16;
+        //public static readonly int UnitSizeY = 16;
 
         //Whether or not the Game should finish Running and Exit
         public static bool Gameover = false;
         //the scene we are currently 
-        private static Scene _currentScene;
+        private static Scene _currentScene = null;
         //the scene we are about to go to
-        private static Scene _nextScene;
+        private static Scene _nextScene = null;
         //the camera for the 3D View
-        private Camera3D _camera;
+        //private Camera3D _camera;
 
         //creates a game and new scene instance as instance as its active scene
         public Game()
         {
+            //game window size
             RL.InitWindow(640, 480, "Hello World");
             RL.SetTargetFPS(15);
 
@@ -48,14 +51,15 @@ namespace GameFrameWork
             Player player = new Player("crying.jpg");
             player.X = 4;
             player.Y = 3;
+            //player.Sprite.X -= 0.5f;
+            //player.Sprite.Y -= 0.5f;
 
-            Entity sword = new Entity('/', "cryingcat.jpg");
-            player.AddChild(sword);
-            sword.X+= 0.05f;
-            sword.Y += 0.05f;
+
+
+
             //add the player to the starting room
             startingRoom.AddEntity(player);
-            startingRoom.AddEntity(sword);
+            
 
             //create an enemy
             Enemy enemy = new Enemy("cryer.jpg");
@@ -152,15 +156,21 @@ namespace GameFrameWork
             //loop til the game is over
             while (!Gameover && !RL.WindowShouldClose())
             {
-                //Start the Scene if needed
+                //Change the Scene if needed
                 if (_currentScene != _nextScene)
                 {
                     _currentScene = _nextScene;
-                    _currentScene.Start();
                 }
 
                 //Update the active Scene
                 _currentScene.Update();
+
+                //start the Scene if needed
+                if (_currentScene.Started == false)
+                {
+                    _currentScene.Start();
+                }
+                
 
                 //int mouseX = (RL.GetMouseX() - 320) / 16;
                 //int mouseY = (RL.GetMouseY() - 240) / 16;

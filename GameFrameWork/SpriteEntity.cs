@@ -17,7 +17,7 @@ namespace GameFrameWork
         {
             get
             {
-                return _texture.width;
+                return _texture.width / Game.UnitSize.x;
             }
 
         }
@@ -25,10 +25,43 @@ namespace GameFrameWork
         {
             get
             {
-                return _texture.height;
+                return _texture.height / Game.UnitSize.y;
             }
 
         }
+
+        public float Top
+        {
+            get
+            {
+                return YAbsolute + 0.5f;
+            }
+        }
+
+        public float Bottom
+        {
+            get
+            {
+                return YAbsolute + Height + 0.5f;
+            }
+        }
+
+        public float Left
+        {
+            get
+            {
+                return XAbsolute + 0.5f;
+            }
+        }
+
+        public float Right
+        {
+            get
+            {
+                return XAbsolute + Width + 0.5f;
+            }
+        }
+
 
         public Texture2D Texture
         {
@@ -40,13 +73,14 @@ namespace GameFrameWork
 
         public SpriteEntity()
         {
-
         }
 
         public void Load(string path)
         {
             _image = RL.LoadImage(path);
             _texture = RL.LoadTextureFromImage(_image);
+            X = -Width / 2;
+            Y = -Height / 2;
         }
     }
 }

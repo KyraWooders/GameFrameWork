@@ -9,6 +9,7 @@ namespace GameFrameWork
     class Player : Entity
     {
         private PlayerInput _input = new PlayerInput();
+        private Entity _sword = new Entity('/', "cryingcat.jpg");
 
         public Player() : this('@')
         {
@@ -17,26 +18,23 @@ namespace GameFrameWork
 
         public Player(string imageName) : base('@', imageName)
         {
-
+            //bind movement methods to the arrow keysc
             _input.AddKeyEvent(MoveRight, 100);//D
             _input.AddKeyEvent(MoveLeft, 97);//A
             _input.AddKeyEvent(MoveUp, 119);//W
             _input.AddKeyEvent(MoveDown, 115);//S
-
+            _input.AddKeyEvent(DetachSword, 69);//Shift + E
+            _input.AddKeyEvent(AttachSword, 101);//E
+            //add Readkey to this Entity's onupdate
             OnUpdate += _input.ReadKey;
             OnUpdate += Orbiit;
+            OnStart += AddSword;
+            OnStart += AttachSword;
         }
 
         public Player(char icon, string imageName) : base(icon, imageName)
         {
-            //bind movement methods to the arrow keys
-            _input.AddKeyEvent(MoveRight, 100);//D
-            _input.AddKeyEvent(MoveLeft, 97);//A
-            _input.AddKeyEvent(MoveUp, 119);//W
-            _input.AddKeyEvent(MoveDown, 115);//S
-            //add Readkey to this Entity's onupdate
-            OnUpdate += _input.ReadKey;
-            OnUpdate += Orbiit;
+
         }
 
         public Player(char icon) : base(icon)
@@ -44,15 +42,36 @@ namespace GameFrameWork
 
         }
 
+        //add a sword to the scene
+        private void AddSword()
+        {
+            //_sword = new Entity('/', "cryingcat.jpg");
+            CurrentScene.AddEntity(_sword);
+        }
+        //add sword as child
+        private void AttachSword()
+        {
+            AddChild(_sword);
+            _sword.X = 1.25f;
+            _sword.Y = 0.05f;
+        }
+
+        //drop the sword
+        private void DetachSword()
+        {
+           // _sword.X = _sword.XAbsolute;
+           // _sword.Y = _sword.YAbsolute;
+            RemoveChild(_sword);
+        }
 
         private void Orbiit()
         {
             foreach (Entity child in _children)
             {
-                child.Rotate(0.1f);
+                //child.Rotate(0.5f);
             }
 
-            //Rotate(0.1f);
+            Rotate(0.5f);
         }
 
         //Move one space to the right
