@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace GameFrameWork
 {
     class Program
@@ -85,6 +86,10 @@ namespace GameFrameWork
             Matrix3 c = a * b;
             Console.WriteLine(c);
             Console.WriteLine(c * new Vector3(2, 4, 6));
+        }
+        static void AABBTest()
+        {
+
         }
     }
 }

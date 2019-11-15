@@ -31,7 +31,7 @@ namespace GameFrameWork
         }
 
         //gets input from the console 
-        public void ReadKey()
+        public void ReadKey(float deltaTime)
         {
             //ConsoleKey inputKey = Console.ReadKey().Key;
             int inputKey = RL.GetKeyPressed();

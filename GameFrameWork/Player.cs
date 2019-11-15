@@ -10,6 +10,13 @@ namespace GameFrameWork
     {
         private PlayerInput _input = new PlayerInput();
         private Entity _sword = new Entity('/', "cryingcat.jpg");
+        public Entity Sword
+        {
+            get
+            {
+                return _sword;
+            }
+        }
 
         public Player() : this('@')
         {
@@ -45,12 +52,17 @@ namespace GameFrameWork
         //add a sword to the scene
         private void AddSword()
         {
-            //_sword = new Entity('/', "cryingcat.jpg");
             CurrentScene.AddEntity(_sword);
+            _sword.X = X;
+            _sword.Y = Y;
         }
         //add sword as child
         private void AttachSword()
         {
+            if (!Hitbox.Overlaps(_sword.Hitbox))
+            {
+                return;
+            }
             AddChild(_sword);
             _sword.X = 1.25f;
             _sword.Y = 0.05f;
@@ -59,19 +71,21 @@ namespace GameFrameWork
         //drop the sword
         private void DetachSword()
         {
-           // _sword.X = _sword.XAbsolute;
-           // _sword.Y = _sword.YAbsolute;
+            if (_sword.CurrentScene != CurrentScene)
+            {
+                return;
+            }
             RemoveChild(_sword);
         }
 
-        private void Orbiit()
+        private void Orbiit(float deltaTime)
         {
             foreach (Entity child in _children)
             {
-                //child.Rotate(0.5f);
+                child.Rotate(0.5f * deltaTime);
             }
 
-            Rotate(0.5f);
+            Rotate(0.5f * deltaTime);
         }
 
         //Move one space to the right
@@ -152,9 +166,18 @@ namespace GameFrameWork
             {
                 return;
             }
-            //remove the player from its current 
+            if (_sword.Parent == this)
+            {
+                //remove the sword from the 
+                CurrentScene.RemoveEntity(_sword);
+                //
+                destination.AddEntity(_sword);
+            }
+            //remove the player from its current room
             CurrentScene.RemoveEntity(this);
+            //add the player to the destination room
             destination.AddEntity(this);
+            //change the game's active snene to the destination
             Game.CurrentScene = destination;
         }
         

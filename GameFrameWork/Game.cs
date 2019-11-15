@@ -12,8 +12,8 @@ namespace GameFrameWork
     class Game
     {
         //sprite size
-        public static readonly Vector2 UnitSize = new Vector2(16, 16);
-        //public static readonly int UnitSizeX = 16;
+        public static readonly Vector2 UnitSize = new Vector2(22, 22);
+        //public static readonly int UnitSizeX = 22;
         //public static readonly int UnitSizeY = 16;
 
         //Whether or not the Game should finish Running and Exit
@@ -22,6 +22,8 @@ namespace GameFrameWork
         private static Scene _currentScene = null;
         //the scene we are about to go to
         private static Scene _nextScene = null;
+        //The timer for the entire game 
+        private Timer _gameTimer;
         //the camera for the 3D View
         //private Camera3D _camera;
 
@@ -29,8 +31,9 @@ namespace GameFrameWork
         public Game()
         {
             //game window size
-            RL.InitWindow(640, 480, "Hello World");
+            RL.InitWindow(1280, 760, "Hello World");
             RL.SetTargetFPS(15);
+            _gameTimer = new Timer();
 
             //Raylib.Vector3 cameraPosition = new Raylib.Vector3(-10, -10, -10);
             //Raylib.Vector3 cameraTarget = new Raylib.Vector3(0, 0, 0);
@@ -81,6 +84,7 @@ namespace GameFrameWork
             startingRoom.South = southRoom;
 
             //walls for starting room
+            //sides
             for (int i = 1; i < startingRoom.SizeX - 1; i++)
             {
                 startingRoom.AddEntity(new Wall(0, i));
@@ -89,6 +93,7 @@ namespace GameFrameWork
                     startingRoom.AddEntity(new Wall(11, i));
                 }
             }
+            //top and bottom
             for (int i = 0; i < startingRoom.SizeX; i++)
             {
                 if (i != 2)
@@ -152,7 +157,9 @@ namespace GameFrameWork
             //PlayerInput.AddKeyEvent(Quit, ConsoleKey.Escape);
 
             Init();
-            
+            Camera2D camera = new Camera2D();
+            camera.zoom = 3;
+
             //loop til the game is over
             while (!Gameover && !RL.WindowShouldClose())
             {
@@ -163,7 +170,7 @@ namespace GameFrameWork
                 }
 
                 //Update the active Scene
-                _currentScene.Update();
+                _currentScene.Update(_gameTimer.GetDeltaTime());
 
                 //start the Scene if needed
                 if (_currentScene.Started == false)
@@ -182,9 +189,9 @@ namespace GameFrameWork
 
                 //Draw the active Scene
                 RL.BeginDrawing();
-                //RL.BeginMode3D(_camera);
+                RL.BeginMode2D(camera);
                 _currentScene.Draw();
-                //RL.EndMode3D();
+                RL.EndMode2D();
                 RL.EndDrawing();
             }
 

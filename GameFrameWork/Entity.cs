@@ -10,12 +10,13 @@ using RL = Raylib.Raylib;
 namespace GameFrameWork
 {
     delegate void Event();
+    delegate void UpdateEvent(float deltaTime);
     
     class Entity
     {
         //events that are called when the entity is started, updated, and draw
         public Event OnStart;
-        public Event OnUpdate;
+        public UpdateEvent OnUpdate;
         public Event OnDraw;
 
         protected Entity _parent = null;
@@ -34,6 +35,17 @@ namespace GameFrameWork
         private Matrix3 _localTransform = new Matrix3();
         private Matrix3 _globalTransform = new Matrix3();
 
+        public AABB Hitbox { get; set; }
+
+        //whether this entity's start method has been called
+        private bool _started = false;
+        public bool Started
+        {
+            get
+            {
+                return _started;
+            }
+        }
         //the character representing the entity on the screen
         public char Icon { get; set; } = ' ';
         //teh image represing the entity on the screen
@@ -176,13 +188,18 @@ namespace GameFrameWork
         //creates an entity
         public Entity()
         {
-
+            Hitbox = new AABB(
+                new Vector3(XAbsolute - 0.5f, YAbsolute - 0.5f, 1),
+                new Vector3(XAbsolute + 0.5f, YAbsolute + 0.5f, 1));
         }
 
         //creates an entity with the specified icon and default values
         public Entity(char icon) : this()
         {
             Icon = icon;
+            Hitbox = new AABB(
+               new Vector3(XAbsolute - 0.5f, YAbsolute - 0.5f, 1),
+               new Vector3(XAbsolute + 0.5f, YAbsolute + 0.5f, 1));
         }
 
         //creates an Entity with the specitfied icon and image
@@ -191,6 +208,9 @@ namespace GameFrameWork
             Sprite = new SpriteEntity();
             Sprite.Load(imageName);
             AddChild(Sprite);
+            Hitbox = new AABB(
+               new Vector3(XAbsolute - 0.5f, YAbsolute - 0.5f, 1),
+               new Vector3(XAbsolute + 0.5f, YAbsolute + 0.5f, 1));
         }
 
         ~Entity()
@@ -270,27 +290,38 @@ namespace GameFrameWork
             }
         }
 
+        //find the distance between this entity and another
+        public float GetDistance(Entity other)
+        {
+            Vector3 position = new Vector3(XAbsolute, YAbsolute, 1);
+            Vector3 otherPositoin = new Vector3(other.XAbsolute, other.YAbsolute, 1);
+            return position.Distance(otherPositoin);
+        }
+
         //call the entity's onstart event
         public void Start()
         {
             OnStart?.Invoke();
+            _started = true;
         }
 
         //call the entity's onupdate event
-        public void Update()
+        public void Update(float deltaTime)
         {
+            OnUpdate?.Invoke(deltaTime);
             //_location += _velocity;
             //Matrix3 transform = _translation * _rotation;
             //_location = transform * _location;
             X += _velocity.x;
             Y += _velocity.y;
-            OnUpdate?.Invoke();
+            Hitbox.Move(new Vector3(XAbsolute, YAbsolute, 1));
         }
 
         //call the entity'sw onDraw event
         public void Draw()
         {
             OnDraw?.Invoke();
+            Hitbox.Draw(Raylib.Color.RED);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace GameFrameWork
         private bool _started = false;
 
         public Event OnStart;
-        public Event OnUpdate;
+        public UpdateEvent OnUpdate;
         public Event OnDraw;
 
         public Scene() : this(24, 6)
@@ -81,16 +81,19 @@ namespace GameFrameWork
             foreach (Entity e in _entities)
             {
                 //call the entity's start events
-                e.Start();
+                if (!e.Started)
+                {
+                    e.Start();
+                }
             }
 
             _started = true;
         }
 
         //Called in Game every step to Update each entity in the scene
-        public void Update()
+        public void Update(float deltaTime)
         {
-            OnUpdate?.Invoke();
+            OnUpdate?.Invoke(deltaTime);
 
             //clear the collision grid
             _collision = new bool[_sizeX, _sizeY];
@@ -144,7 +147,7 @@ namespace GameFrameWork
             foreach (Entity e in _entities)
             {
                 //call the Entity's Update events
-                e.Update();
+                e.Update(deltaTime);
             }
             //counter++;
         }
@@ -192,8 +195,8 @@ namespace GameFrameWork
                         Texture2D texture = e.Sprite.Texture;
 
                         //position
-                        float positionX = e.Sprite.XAbsolute * Game.UnitSize.x;
-                        float positionY = e.Sprite.YAbsolute * Game.UnitSize.y;
+                        float positionX = e.Sprite.XAbsolute * Game.UnitSize.x + Game.UnitSize.x / 2;
+                        float positionY = e.Sprite.YAbsolute * Game.UnitSize.y + Game.UnitSize.y / 2;
                         Raylib.Vector2 position = new Raylib.Vector2(positionX, positionY);
 
                         //rotation

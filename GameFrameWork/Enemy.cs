@@ -9,8 +9,7 @@ namespace GameFrameWork
     class Enemy : Entity
     {
         private Direction _facing;
-
-        public float Speed { get; set; } = 0.25f;
+        public float Speed { get; set; } = 5f;
 
         //cretes a new enemy represented by the 'e' symdol and rat image
         public Enemy() : this('*')
@@ -32,55 +31,48 @@ namespace GameFrameWork
         }
 
         //Check to see if the Enemy has touched a player and remove itself if so
-        private void TouchPlayer()
+        private void TouchPlayer(float deltaTime)
         {
             //get the list of Entities in our space
             List<Entity> touched = CurrentScene.GetEntities(X, Y);
             
             //check if any of them are players
-            bool hit = false;
             foreach (Entity e in touched)
             {
                 if (e is Player)
                 {
-                    hit = true;
+                    CurrentScene.RemoveEntity(this);
                     break;
                 }
             }
-
-            //if we hit a player, remove this enemy from the scene
-            if (hit)
-            {
-                CurrentScene.RemoveEntity(this);
-            }
         }
 
-        private void Move()
+        private void Move(float deltaTime)
         {
             //Rotate(0.09f);
             switch (_facing)
             {
                 case Direction.North:
-                    MoveUp();
+                    MoveUp(deltaTime);
                     break;
                 case Direction.South:
-                    MoveDown();
+                    MoveDown(deltaTime);
                     break;
                 case Direction.East:
-                    MoveRight();
+                    MoveRight(deltaTime);
                     break;
                 case Direction.West:
-                    MoveLeft();
+                    MoveLeft(deltaTime);
                     break;
             }
         }
 
-        private void MoveDown()
+        private void MoveDown(float deltaTime)
         {
             //move down if the space is clear
-            if (!CurrentScene.GetCollision(XAbsolute, Sprite.Bottom + Speed))
+            if (!CurrentScene.GetCollision(XAbsolute, Sprite.Bottom + Speed * deltaTime))
             {
-                YVelocity = Speed;
+                YVelocity = Speed * deltaTime;
             }
             //Otherwise stop and change direction
             else
@@ -89,11 +81,11 @@ namespace GameFrameWork
                 _facing++;
             }
         }
-        private void MoveRight()
+        private void MoveRight(float deltaTime)
         {
-            if (!CurrentScene.GetCollision(Sprite.Right + Speed, XAbsolute))
+            if (!CurrentScene.GetCollision(Sprite.Right + Speed * deltaTime, YAbsolute))
             {
-                XVelocity = Speed;
+                XVelocity = Speed * deltaTime;
             }
             else
             {
@@ -101,11 +93,11 @@ namespace GameFrameWork
                 _facing++;
             }
         }
-        private void MoveLeft()
+        private void MoveLeft(float deltaTime)
         {
-            if (!CurrentScene.GetCollision(Sprite.Left - Speed, YAbsolute))
+            if (!CurrentScene.GetCollision(Sprite.Left - Speed * deltaTime, YAbsolute))
             {
-                XVelocity = -Speed;
+                XVelocity = -Speed * deltaTime;
             }
             else
             {
@@ -115,11 +107,11 @@ namespace GameFrameWork
         }
 
         //move one space up
-        private void MoveUp()
+        private void MoveUp(float deltaTime)
         {
-            if (!CurrentScene.GetCollision(XAbsolute, Sprite.Top - Speed))
+            if (!CurrentScene.GetCollision(XAbsolute, Sprite.Top - Speed * deltaTime))
             {
-                YVelocity = -Speed;
+                YVelocity = -Speed * deltaTime;
             }
             else
             {
